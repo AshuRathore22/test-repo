@@ -1,0 +1,125 @@
+const express = require('express');
+
+const authMiddleware = require('../middleware/auth');
+const organizationStatus = require('../middleware/organizationStatus');
+const subscriptionEnd = require('../middleware/subscriptionEnd');
+const teamController = require('../controllers/team');
+
+const router = express.Router();
+
+router.get('/:org_id', 
+    authMiddleware.auth, 
+    subscriptionEnd.checkSubscription,
+    organizationStatus.checkOrganizationStatus, 
+    teamController.getTeamsByOrgId
+);
+router.get('/count/:org_id', 
+    authMiddleware.auth, 
+    subscriptionEnd.checkSubscription,
+    organizationStatus.checkOrganizationStatus, 
+    teamController.getTeamsCountByOrgId
+);
+router.post('/', 
+    authMiddleware.auth, 
+    subscriptionEnd.checkSubscription,
+    organizationStatus.checkOrganizationStatus, 
+    teamController.addTeam
+);
+router.put('/status', 
+    authMiddleware.auth, 
+    subscriptionEnd.checkSubscription,
+    organizationStatus.checkOrganizationStatus, 
+    teamController.teamStatus
+)
+router.get('/admin/get-form-teams/:formId', 
+    authMiddleware.auth, 
+    subscriptionEnd.checkSubscription,
+    organizationStatus.checkOrganizationStatus, 
+    teamController.getTeamsByFormId
+);
+router.get('/admin/get-team-members/', 
+    authMiddleware.auth, 
+    subscriptionEnd.checkSubscription,
+    organizationStatus.checkOrganizationStatus, 
+    teamController.getMemberTeams
+);
+router.put('/admin/delete-team-members/', 
+    authMiddleware.auth, 
+    subscriptionEnd.checkSubscription,
+    organizationStatus.checkOrganizationStatus, 
+    teamController.deleteMemberTeams
+);
+router.get('/admin/get-team-managers/', 
+    authMiddleware.auth, 
+    subscriptionEnd.checkSubscription,
+    organizationStatus.checkOrganizationStatus, 
+    teamController.getManagerTeams
+);
+router.put('/admin/delete-team-managers/', 
+    authMiddleware.auth, 
+    subscriptionEnd.checkSubscription,
+    organizationStatus.checkOrganizationStatus, 
+    teamController.deleteManagerTeams
+);
+router.get('/mob/get-managers-list-mob/', 
+    authMiddleware.auth, 
+    subscriptionEnd.checkSubscription,
+    organizationStatus.checkOrganizationStatus, 
+    teamController.getManagerListUserMob 
+);
+router.post('/mob/add-device-in-team-mob', 
+    authMiddleware.auth, 
+    subscriptionEnd.checkSubscription,
+    organizationStatus.checkOrganizationStatus, 
+    teamController.addNewDeviceInTeamMob
+);
+router.get('/count-teams-mob/:org_id/:team_id', 
+    authMiddleware.auth, 
+    subscriptionEnd.checkSubscription,
+    organizationStatus.checkOrganizationStatus, 
+    teamController.getCountsbyOrgTeamIdMob
+);
+router.get('/mob/get-team-members-mob/', 
+    authMiddleware.auth, 
+    subscriptionEnd.checkSubscription,
+    organizationStatus.checkOrganizationStatus, 
+    teamController.getMemberTeamsMob
+);
+router.get('/mob/get-team-manager-mob/', 
+    authMiddleware.auth, 
+    subscriptionEnd.checkSubscription,
+    organizationStatus.checkOrganizationStatus, 
+    teamController.getManagerTeamsMob
+);
+router.get('/mob/get-team-form-mob/', 
+    authMiddleware.auth, 
+    subscriptionEnd.checkSubscription,
+    organizationStatus.checkOrganizationStatus, 
+    teamController.getFormTeamsMob
+);
+router.put('/mob/delete-team-members-mob/', 
+    authMiddleware.auth, 
+    subscriptionEnd.checkSubscription,
+    organizationStatus.checkOrganizationStatus, 
+    teamController.deleteMemberTeamsMob
+);
+router.get('/mob/get-device-details-mob/:userId', 
+    authMiddleware.auth, 
+    subscriptionEnd.checkSubscription,
+    organizationStatus.checkOrganizationStatus, 
+    teamController.getUserDeviceDetailMob
+);
+router.get('/mob/team-invitations-mob/:orgId/:teamId', 
+    authMiddleware.auth, 
+    subscriptionEnd.checkSubscription,
+    organizationStatus.checkOrganizationStatus, 
+    teamController.getInvitationsMob
+);
+router.put('/mob/delete-team-invitations-mob/:orgId', 
+    authMiddleware.auth, 
+    subscriptionEnd.checkSubscription,
+    organizationStatus.checkOrganizationStatus, 
+    teamController.deleteInvitationsMob
+);
+
+module.exports = router; 

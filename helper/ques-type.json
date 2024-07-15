@@ -1,0 +1,137 @@
+{
+    "SINGLE_CHOICE": {
+        "title": "Single Choice",
+        "code": "mcq_single"
+    },
+    "MULTIPLE_CHOICE": {
+        "title": "Multiple Choice",
+        "code": "mcq_multiple"
+    },
+    "TEXT": {
+        "title": "Text",
+        "code": "text"
+    },
+    "NUMBER": {
+        "title": "Number",
+        "code": "number"
+    },
+    "LOCATION": {
+        "title": "Location",
+        "code": "location"
+    },
+    "DATE": {
+        "title": "Date",
+        "code": "date"
+    },
+    "TIME": {
+        "title": "Time",
+        "code": "time"
+    },
+    "NOTE": {
+        "title": "Note",
+        "code": "note"
+    },
+    "SIGNATURE": {
+        "title": "Signature",
+        "code": "signature"
+    },
+    "CODE_BREAK": {
+        "title": "code Break",
+        "code": "section_break"
+    },
+    "AREA_ON_MAP": {
+        "title": "Area on Map",
+        "code": "area_on_map"
+    },
+    "DISTANCE_ON_MAP": {
+        "title": "Distance on Map",
+        "code": "distance_on_map"
+    },
+    
+    "DROPDOWN":{
+    "title":"dropdown",
+    "code":"dropdown"
+    },
+    "IMAGE": {
+        "title": "Image",
+        "code": "image"
+    },
+    
+    "MULTIPLE_IMAGE": {
+        "title": "Multiple Image",
+        "code": "multiple_image"
+    },
+    "IMAGE_GEO_TAG": {
+        "title": "Image Geo Tag",
+        "code": "image_geo_tag"
+    },
+    
+    "MULTIPLE_IMAGE_GEO_TAG": {
+        "title": "Multiple Image Geo Tag",
+        "code": "multiple_image_geo_tag"
+    },
+    "PHONE": {
+        "title": "Phone",
+        "code": "phone"
+    },
+    "EMAIL": {
+        "title": "Email",
+        "code": "email"
+    },
+    "AUDIO": {
+        "title": "Audio",
+        "code": "audio"
+    },
+    "VIDEO": {
+        "title": "Video",
+        "code": "video"
+    },
+    "FILE_UPLOAD": {
+        "title": "File Upload",
+        "code": "file_upload"
+    },
+    "MULTIPLE_FILE_UPLOAD": {
+        "title": "Multiple File Upload",
+        "code": "multiple_file_upload"
+    },
+    "LIKERT_SCALE": {
+        "title": "Likert Scale",
+        "code": "likert_scale"
+    },
+    "SCALE": {
+        "title": "Scale",
+        "code": "scale"
+    },
+    "RATING": {
+        "title": "Rating",
+        "code": "rating"
+    },
+    "GROUP_NO_REPEAT": {
+        "title": "Group (No repeat)",
+        "code": "grp_no_repeat"
+    },
+    "GROUP_NUMBER": {
+        "title": "Group (Number)",
+        "code": "grp_number"
+    },
+    "GROUP_CHOICE": {
+        "title": "Group (Choice)",
+        "code": "grp_choice"
+    },
+    "GROUP_CUSTOM": {
+        "title": "Group (Custom)",
+        "code": "grp_custom"
+    },
+    "MONITORING": {
+        "title": "Monitoring",
+        "code": "monitoring"
+    },
+    "BARCODE": {
+        "title": "Barcode",
+        "code": "barcode"
+    },
+    "LIVE_TRACKING": {
+        "title": "Live Tracking",
+        "code": "live_tracking"
+    }
+}

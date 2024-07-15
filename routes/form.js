@@ -1,0 +1,543 @@
+const express = require("express");
+const authMiddleware = require("../middleware/auth");
+const formController = require("../controllers/form");
+var upload = require("../middleware/multer");
+const organizationStatus = require('../middleware/organizationStatus');
+const subscriptionEnd = require('../middleware/subscriptionEnd');
+const checkMaxUser = require('../middleware/checkMaxUser');
+const router = express.Router();
+
+router.get(
+  "/admin/get-rule-group/:formId/:parentId",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription,
+  organizationStatus.checkOrganizationStatus, 
+  formController.getRulesForGroup
+);
+// ----------monitoring-------------
+router.get(
+  "/admin/get-all-form-monitoring", 
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.getAllFormForMonitoring);
+router.get(
+  "/admin/get-all-questions-monitoring/:formId",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.getAllQuestionsForMonitoring
+);
+router.put(
+  "/admin/update-attribute-monitoring", 
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.addAttributesForMonitoring
+);
+router.get(
+  "/admin/get-attributes/:formId/:questionId", 
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.getAllAttributes
+);
+router.get(
+  "/admin/get-attributes-mobile/:formId/:questionId", 
+  authMiddleware.auth, 
+  // subscriptionEnd.checkSubscription, 
+  // organizationStatus.checkOrganizationStatus, 
+  formController.getAllAttributesForMobile
+);
+router.delete(
+  "/admin/delete-attribute/:formId/:questionId/:attributeId", 
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.deleteAttribute
+);
+router.get(
+  "/admin/search-attribute/:formId/:questionId/:key", 
+  authMiddleware.auth, 
+  // subscriptionEnd.checkSubscription, 
+  // organizationStatus.checkOrganizationStatus, 
+  formController.searchAttribute
+);
+// ----------monitoring-------------
+router.post(
+  "/contact-form",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  upload.fields([
+    {
+      name: "uploadingFile",
+      maxCount: 1,
+    },
+  ]),
+  formController.contactForm
+);
+router.get(
+  "/all-user-forms",
+  authMiddleware.auth, 
+  // subscriptionEnd.checkSubscription, 
+  // organizationStatus.checkOrganizationStatus, 
+  formController.getAllFormsList
+);
+router.get(
+  "/:id", 
+  authMiddleware.auth, 
+  // subscriptionEnd.checkSubscription, 
+  // organizationStatus.checkOrganizationStatus, 
+  formController.getForm
+);
+router.get(
+  "/admin/:id", 
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.getFormAdmin
+);
+router.get(
+  "/questions/:formId",
+  authMiddleware.auth, 
+  // subscriptionEnd.checkSubscription, 
+  // organizationStatus.checkOrganizationStatus, 
+  formController.getQuestions
+);
+router.get(
+  "/admin/questions/:formId",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  // checkMaxUser.checkUserLimit, 
+  formController.getAdminQuestions
+);
+router.post(
+  "/admin/add-audience",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  checkMaxUser.checkUserLimit, 
+  formController.addAudience
+);
+router.get(
+  "/admin/get-audience/:formId",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.getAudience
+);
+router.put(
+  "/admin/remove-audience",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.removeAudience
+);
+router.post(
+  "/admin/add-question",
+  authMiddleware.auth, 
+  // subscriptionEnd.checkSubscription, 
+  // organizationStatus.checkOrganizationStatus, 
+  formController.addQuestion
+);
+router.put(
+  "/admin/publish-form/:formId",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.publishForm
+);
+router.get(
+  "/admin/get-form-status/:formId",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.getFormStatus
+);
+router.get(
+  "/admin/get-form-responses-count/:formId",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.getFormResponsesCount
+);
+router.get(
+  "/admin/get-form-users-count/:formId",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.getFormUsersCount
+);
+router.put(
+  "/admin/update-question/:id",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  upload.fields([
+    {
+      name: "helpImageURL",
+      maxCount: 1,
+    },
+    {
+      name: "optionImages[]",
+      maxCount: 30,
+    },
+  ]),
+  formController.updateQuestion
+);
+router.delete(
+  "/admin/delete-question/:formId/:questionId",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.deleteQuestion
+);
+router.post("/", 
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.addNewForm
+);
+router.get(
+  "/all-admin-forms/:orgId",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.getAdminFormsList
+);
+router.get(
+  "/admin/get-rules-question/:formId",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.getRulesQuestions
+);
+router.post("/admin/add-rule/", 
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.addRule
+);
+router.put(
+  "/admin/update-rule/",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.updateRule
+);
+router.post(
+  "/admin/copy-form/", 
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.copyForm
+);
+router.get(
+  "/admin/get-rules/:formId",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription,
+  organizationStatus.checkOrganizationStatus, 
+  formController.getRules
+);
+router.get(
+  "/admin/search-rules/:formId",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.searchRules
+);
+router.post(
+  "/admin/add-team-access",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.addTeamAccess
+);
+router.get(
+  "/admin/versions/:formId",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.getFormVersionbyId
+);
+router.get(
+  "/admin/export/:formId",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.exportForm
+);
+router.get(
+  "/admin/form-version/:id",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.getVersionbyId
+);
+router.put(
+  "/admin/remove-team-access",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.removeTeamAccess
+);
+router.get(
+  "/admin/get-form-teams/:formId",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.getFormTeams
+);
+router.put(
+  "/admin/delete-teams",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.deleteTeamForForms
+);
+router.put(
+  "/admin/update-form/:formId",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.updateFormById
+);
+router.get(
+  "/admin/get-question-count/:formId",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.getQuestionsCount
+);
+router.delete(
+  "/admin/delete-rule/:formId/:ruleId",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.deleteRules
+);
+router.put(
+  "/admin/publish-flagging/:formId",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.publishFlagging
+);
+router.put(
+  "/admin/form-settings/:formId",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.changeFormSettings
+);
+router.put(
+  "/admin/unpublish-form/:formId",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.unpublishForm
+);
+router.put(
+  "/admin/delete-form/:formId",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription,
+  organizationStatus.checkOrganizationStatus, 
+  formController.deleteForm
+);
+router.put(
+  "/admin/addChildQues/:formId",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.addChildQuestion
+);
+router.put(
+  "/admin/removeChildQues/:formId",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.removeChildQuestion
+);
+router.get(
+  "/admin/getChildQues/:formId",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.getChildQuestions
+);
+router.get(
+  "/admin/getTypeSpecificQues/:formId",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.getTypeSpecificQuestions
+);
+router.put(
+  "/admin/updateTypeSpecificQuesInParent/:formId",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.updateTypeSpecificQuestionsInParant
+);
+router.put(
+  "/admin/updateQuesKeywordStatus/:formId",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.updateQuestionKeywordStatus
+);
+router.get(
+  "/getGroupQuestions/:formId",
+  authMiddleware.auth, 
+  // subscriptionEnd.checkSubscription, 
+  // organizationStatus.checkOrganizationStatus, 
+  formController.getGroupQuestions
+);
+router.post(
+  "/admin/add-response-api",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.addResponseApiKey
+);
+router.get(
+  "/admin/getResponseApiKey/:formId",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.getResponseApiKey
+);
+router.delete(
+  "/admin/delete-response-key/:formId/:keyId",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.deleteApiKey
+);
+router.get(
+  "/admin/get-all-response/:formId",
+  formController.getAllResponseByFormId
+);
+router.get(
+  "/mob/clear-all-form/:userId", 
+  formController.clearFormMob
+);
+router.post(
+  "/copyQuestion", 
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.copyQuestion
+);
+router.post(
+  "/moveQuestion", 
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.moveQuestion
+);
+router.put(
+  "/admin/upRule/", 
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.upRule
+);
+//  router.get('/admin/countResponses/',authMiddleware.auth,formController.dashboard)
+router.get(
+  "/admin/shubgetAdminFormsList",
+  formController.shubgetAdminFormsList
+);
+router.get(
+  "/user/dashboard/:orgId",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.dashboard
+);
+router.post(
+  "/user/shareForm", 
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.shareForm
+);
+router.post(
+  "/user/shareFormCopyLink",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.shareFormCopyLink
+);
+router.get(
+  "/user/verifyShareToken/:token", 
+  formController.verifyShareToken
+);
+// =========================rules for group question==============================
+router.post(
+  "/admin/add-rule-group/",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.addRuleForGroup
+);
+router.put(
+  "/admin/update-rule-Group",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.updateRuleForGroup
+);
+router.delete(
+  "/admin/delete-rule-group/:formId/:parentId/:ruleId",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.deleteRuleForGroup
+);
+router.put(
+  "/assignRepouurt/:formId",
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.assignReport
+);
+router.post(
+  '/analyticalChart', 
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.formsAnalyticalChart
+)
+router.post(
+  '/popularFormChart', 
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.popularFormChart
+)
+router.post(
+  '/checkFreePremiumOrgUser', 
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.checkFreePremiumOrgUser
+)
+router.post(
+  '/countEverything', 
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.countEverything
+)
+router.post(
+  '/countCreateFormPerDay', 
+  authMiddleware.auth, 
+  subscriptionEnd.checkSubscription, 
+  organizationStatus.checkOrganizationStatus, 
+  formController.countCreateFormPerDay
+)
+// =========================rules for group question==============================
+module.exports = router;
